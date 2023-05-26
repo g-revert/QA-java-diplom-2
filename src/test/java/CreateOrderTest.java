@@ -14,6 +14,7 @@ import org.junit.Test;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.net.HttpURLConnection.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -46,7 +47,7 @@ public class CreateOrderTest {
         ValidatableResponse createResponse = userSteps.create(user);
         token = createResponse.extract().path("accessToken");
         Ingredients ingredients = new Ingredients(userSteps.getIngredientsHash());
-        ValidatableResponse createOrderResponse = userSteps.createOrderWithAuthorization(ingredients,token);
+        ValidatableResponse createOrderResponse = userSteps.createOrderWithAuthorization(ingredients, token);
 
         int authStatusCode = createResponse.extract().statusCode();
         int createOrderStatusCode = createOrderResponse.extract().statusCode();
@@ -72,18 +73,19 @@ public class CreateOrderTest {
     @Test
     @DisplayName("Create an order with ingredients")
     public void createOrderWithIngredientsTest() {
-        User user = UserGenerator.getRandom();
-        ValidatableResponse createResponse = userSteps.create(user);
-        token = createResponse.extract().path("accessToken");
-        Ingredients ingredients = new Ingredients(userSteps.getIngredientsHash());
-        ValidatableResponse createOrderResponse = userSteps.createOrderWithAuthorization(ingredients, token);
+        ArrayList<String> newIngredients = new ArrayList<>();
+        newIngredients.add("61c0c5a71d1f82001bdaaa72");
+        newIngredients.add("609646e4dc916e00276b2870");
+        Ingredients ingredients = new Ingredients(newIngredients);
+        ValidatableResponse createOrderResponse = userSteps.createOrder(ingredients);
+        token = "null";
 
-        int authStatusCode = createResponse.extract().statusCode();
         int createOrderStatusCode = createOrderResponse.extract().statusCode();
-        String getOrderBody = createOrderResponse.extract().path("order.ingredients._id").toString();
-        assertThat(authStatusCode, is(HTTP_OK));
+        String getOrderMessage = createOrderResponse.extract().path("success").toString();
+        int getOrderNumber = createOrderResponse.extract().path("order.number");
+        assertThat(getOrderMessage, is("true"));
+        assertThat(getOrderNumber, notNullValue());
         assertThat(createOrderStatusCode, is(HTTP_OK));
-        assertThat(getOrderBody, notNullValue());
     }
 
     @Test
