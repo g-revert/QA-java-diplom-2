@@ -61,10 +61,36 @@ public class CreateUserTest {
     }
 
     @Test
-    @DisplayName("Create a user with missing a necessary string")
-    public void createMissingNecessaryStringTest() {
+    @DisplayName("Create a user with missing email string")
+    public void createMissingEmailTest() {
         User user = new User(null, "wefwefwewef", "TestNam");
-        ValidatableResponse createResponse = userSteps.create(user);
+        ValidatableResponse createResponse = userSteps.createWithoutHeader(user);
+        token = "null";
+
+        int authStatusCode = createResponse.extract().statusCode();
+        String authMessage = createResponse.extract().path("message").toString();
+        assertThat(authStatusCode, is(HTTP_FORBIDDEN));
+        assertThat(authMessage, is("Email, password and name are required fields"));
+    }
+
+    @Test
+    @DisplayName("Create a user with missing password string")
+    public void createMissingPasswordTest() {
+        User user = new User("ibeciwec@yandex.ru", null, "TestNam");
+        ValidatableResponse createResponse = userSteps.createWithoutHeader(user);
+        token = "null";
+
+        int authStatusCode = createResponse.extract().statusCode();
+        String authMessage = createResponse.extract().path("message").toString();
+        assertThat(authStatusCode, is(HTTP_FORBIDDEN));
+        assertThat(authMessage, is("Email, password and name are required fields"));
+    }
+
+    @Test
+    @DisplayName("Create a user with missing name string")
+    public void createMissingNameTest() {
+        User user = new User("ibeciwec@yandex.ru", "everververesvd", null);
+        ValidatableResponse createResponse = userSteps.createWithoutHeader(user);
         token = "null";
 
         int authStatusCode = createResponse.extract().statusCode();

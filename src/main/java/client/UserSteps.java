@@ -24,6 +24,14 @@ public class UserSteps extends RestClient {
                 .post(USER_URI + "register/")
                 .then();
     }
+    @Step("Create user without header {createUserWithoutHeader}")
+    public ValidatableResponse createWithoutHeader(User user){
+        return given()
+                .body(user)
+                .when()
+                .post(USER_URI + "register/")
+                .then();
+    }
 
     @Step("Login user {loginUser}")
     public ValidatableResponse login(UserCredentials userCredentials){
