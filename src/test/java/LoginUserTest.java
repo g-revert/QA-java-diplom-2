@@ -6,7 +6,6 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.response.ValidatableResponse;
 import model.User;
 import model.UserCredentials;
-import model.UserGenerator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

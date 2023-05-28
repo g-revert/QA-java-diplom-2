@@ -12,9 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static java.net.HttpURLConnection.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -60,9 +58,12 @@ public class CreateOrderTest {
     @Test
     @DisplayName("Create an order without authorization")
     public void createOrderWithoutAuthorizationTest() {
+        User user = UserGenerator.getRandom();
+        ValidatableResponse createUserResponse = userSteps.create(user);
+        String tokenNull = "null";
         Ingredients ingredients = new Ingredients(userSteps.getIngredientsHash());
-        ValidatableResponse createOrderResponse = userSteps.createOrder(ingredients);
-        token = "null";
+        ValidatableResponse createOrderResponse = userSteps.createOrderWithAuthorization(ingredients, tokenNull);
+        token = createUserResponse.extract().path("accessToken");
 
         int createOrderStatusCode = createOrderResponse.extract().statusCode();
         String getOrderBody = createOrderResponse.extract().path("success").toString();
