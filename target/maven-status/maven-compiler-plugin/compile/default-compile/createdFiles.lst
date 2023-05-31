@@ -1,0 +1,8 @@
+client/UserSteps.class
+model/Ingredients.class
+client/base/RestClient.class
+model/pojo/Orders.class
+model/UserCredentials.class
+model/UserGenerator.class
+model/User.class
+model/pojo/Order.class
