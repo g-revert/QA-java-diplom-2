@@ -6,7 +6,7 @@ Maven, Junit 4, Rest Assured, Allure.
 
 How to run the tests:
 - open IntelliJ IDEA
-- clone the repo via this link https://github.com/tevizo/QA-java-diplom-1.git
+- clone the repo via this link https://github.com/g-revert/QA-java-diplom-1.git
 - Run Everything with `ctrl+ctrl` (⌃⌃)
 - type in `mvn clean test` + Enter
 - type in `mvn allure:serve` + Enter
